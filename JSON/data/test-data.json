@@ -1,12 +1,12 @@
 [
   {"name": "FirstReport",
-    "data": {
+    "data": [{
       "employeeNumber":"x1y2","surname":"Sean","firstName":"None","totalAchievements":3,"totalKudos":10
-    }
+    }]
   },
   {"name": "SecondReport",
-    "data": {
+    "data": [{
       "employeeNumber":"x1y2","surname":"Sean","firstName":"None","totalAchievements":3,"totalKudos":10
-    }
+    }]
   }
 ]

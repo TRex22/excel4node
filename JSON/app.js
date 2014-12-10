@@ -9,51 +9,80 @@
 console.log("Excel converter");
 //requirements
 var xl = require('excel4node');
+var fs = require('fs'); //TODO JMC remove when done
+
+/*Save directory for files*/
+var dir = "data/";
+var filename = "reports.xlsx";
+var file = dir+filename;
 
 /*Test Data*/
-var data = require('test-data.json');
-var style = require('test-styles.json');
+var reports = JSON.parse(fs.readFileSync(dir+"test-data.json"));
+var style = JSON.parse(fs.readFileSync(dir+"test-styles.json"));
+var debug = true;
 
-makeExcelDocument(data, style);
+makeExcelDocument(reports, style, file);
 
-function makeExcelDocument(data, style){
-  var worksheets = getWorksheets(data);
+function makeExcelDocument(reports, style, file){
+  var wb = new xl.WorkBook();
+
+  var worksheets = getWorksheets(reports, wb);
   //if worksheets is null then cry
 
-  var styles = getStyles(style);
+  var styles = getStyles(style, wb);
   //check if styles contains any style objects
-}
 
-function getWorksheets(){
+  wb.write(file);
+  log("file written.");
+  //wb.write(file,res); //node response version
+};
+
+function getWorksheets(reports, wb){
   //check if null
-  if (isEmptyObject(styleObj))
-    return null;
+  var worksheets = [];
+  if (isEmptyObject(reports))
+    return worksheets; //TODO JMC Error reporting
 
-}
+  for (var i=0; i<reports.length; i++){
+    var ws = wb.WorkSheet(reports[i].name);
+    log(reports[i].name);
 
-function getStyles(styleObj){
+    //insert data will be string for now. The typecasting will happen in styling
+    log("checking data loop: "+reports[i].data.length);
+    for (var j=0; j<reports[i].data.length; j++){
+      var k = 0;
+      for (var prop in reports[i].data[j]){
+        log(prop+" : "+reports[i].data[j][key])
+        k++;
+      }
+    }
+  }
+
+};
+
+function getStyles(styleObj, wb){
   //check if null
-  if (isEmptyObject(styleObj))
-    return null; //If there is not style then the data should just be pushed to the file as plain text.
   var styles = [];
+  if (isEmptyObject(styleObj))
+    return styles; //If there is not style then the data should just be pushed to the file as plain text.
 
   //put in loop return array of styles
   var style = wb.Style();
 
-  return null;
+  return styles;
 };
 
 function isEmptyObject(obj) {
   return !Object.keys(obj).length;
 };
 
-function saveExcelFile(xlsBuf, outputFile) {
+void function saveExcelFile(xlsBuf, outputFile) {
   // build file
   makeAFile(outputFile);
   fs.writeFileSync(outputFile, xlsBuf);
 };
 
-function makeAFile(file) {
+void function makeAFile(file) {
   fs.writeFile(file, "", function(err) {
     if (err) {
       console.log(err);
@@ -61,4 +90,9 @@ function makeAFile(file) {
       console.log("The file was created!");
     }
   });
+};
+
+function log(str){
+  if (debug == true)
+    console.log("log: "+str);
 };
