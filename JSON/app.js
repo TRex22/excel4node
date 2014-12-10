@@ -51,8 +51,13 @@ function getWorksheets(reports, wb){
     log("checking data loop: "+reports[i].data.length);
     for (var j=0; j<reports[i].data.length; j++){
       var k = 0;
-      for (var prop in reports[i].data[j]){
-        log(prop+" : "+reports[i].data[j][key])
+      var p = reports[i].data[j];
+      for (prop in p) {
+        if (!p.hasOwnProperty(prop)) {
+          //The current property is not a direct property of p
+          continue;
+        }
+        log(prop+" : "+p[k]);
         k++;
       }
     }
