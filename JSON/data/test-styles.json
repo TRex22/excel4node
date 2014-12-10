@@ -1,0 +1,25 @@
+{
+  "name": "styles",
+  "data": {
+    "headings":{
+      "employeeNumber":"Employee Number","surname":"Surname","firstName":"First Name","totalAchievements":"Total Achievements","totalKudos":"Total Kudos"
+    },
+    "columnWidth":{
+      "employeeNumber":88,"surname":88,"firstName":88,"totalAchievements":88,"totalKudos":88
+    },
+    "rowHeight":{
+      "employeeNumber":21,"surname":21,"firstName":21,"totalAchievements":21,"totalKudos":21
+    },
+    "custStyles":{
+      "style1":{
+        "bold":true,"italics":false,"underline":false,"family":"Times New Roman","colour":"FF0000","size":26,"alignmentVertical":"top","alignmentHorizontal":"left","wrapText":true
+      }
+    },
+    "cells":{
+      "col":1,"row":1,"style":"style1","string":true,"number":false,"formula":false
+    },
+    "img":{
+      "name":"img1","path":"/","row":20,"col":20
+    }
+  }
+}
