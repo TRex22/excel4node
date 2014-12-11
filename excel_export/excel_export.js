@@ -25,7 +25,10 @@
   TODO: Type Setting
   TODO: Excel Functions
   TODO: error log file
-
+  TODO: built in server POSTS and GETS
+  TODO: heading options like special styles and location.
+  TODO: Move whole data and order
+  TODO: add more styles
   **There are some todos
 */
 
@@ -34,7 +37,6 @@ console.log("Excel converter");
 //requirements
 var xl = require('excel4node');
 var fs = require('fs');
-var http = require('http');
 
 /*config*/
 var config = JSON.parse(fs.readFileSync("config.json"));
@@ -148,7 +150,7 @@ function getCustomStyles(styleObj, wb) {
         style.Font.Alignment.Horizontal(p[prop]);
       if (prop === ("wrapText"))
         style.Font.WrapText(p[prop]);
-      //TODO JMC add more styles
+
     }
     styles.push(style);
   }
@@ -169,20 +171,41 @@ function getWorksheets(wb, reports, styleObj) {
     var p = styleObj.data.headings[i];
     var prop;
     var k = 0;
-    for (prop in p) {
-      log("prop: " + prop);
-      if (!p.hasOwnProperty(prop)) {
-        //The current property is not a direct property of p
-        log("alert! " + prop + " -> " + p[prop]);
-        continue;
+
+    //do headings override from styles json
+    if (isEmptyObject(p) || config.useStylesHeadings == false) {
+      //take heading names from reports property names
+      p = reports[i].data[0]; //only need the first data point
+      for (prop in p) {
+        log("prop: " + prop);
+        if (!p.hasOwnProperty(prop)) {
+          //The current property is not a direct property of p
+          log("alert! " + prop + " -> " + p[prop]);
+          continue;
+        }
+        if (i == 0) { //j+2 to leave space for headings
+          ws.Cell(1, i + k + 1).String("" + prop); //fix for r c going from 1,1
+        } else {
+          ws.Cell(1, i + k).String("" + prop);
+        }
+        k++;
       }
-      log(prop + " : " + p[prop]);
-      if (i == 0) { //j+2 to leave space for headings
-        ws.Cell(1, i + k + 1).String("" + p[prop]); //fix for r c going from 1,1
-      } else {
-        ws.Cell(1, i + k).String("" + p[prop]);
+    } else {
+      for (prop in p) {
+        log("prop: " + prop);
+        if (!p.hasOwnProperty(prop)) {
+          //The current property is not a direct property of p
+          log("alert! " + prop + " -> " + p[prop]);
+          continue;
+        }
+        log(prop + " : " + p[prop]);
+        if (i == 0) { //j+2 to leave space for headings
+          ws.Cell(1, i + k + 1).String("" + p[prop]); //fix for r c going from 1,1
+        } else {
+          ws.Cell(1, i + k).String("" + p[prop]);
+        }
+        k++;
       }
-      k++;
     }
 
     //insert data will be string for now. The typecasting will happen in styling

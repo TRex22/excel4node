@@ -9,7 +9,6 @@
   "author": "Jason Chalom",
   "license": "MIT",
   "dependencies": {
-    "excel4node": "^0.1.5",
-    "http": "0.0.0"
+    "excel4node": "^0.1.5"
   }
 }
