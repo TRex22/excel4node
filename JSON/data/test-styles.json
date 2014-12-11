@@ -3,7 +3,11 @@
   "data": {
     "headings":[{
       "employeeNumber":"Employee Number","surname":"Surname","firstName":"First Name","totalAchievements":"Total Achievements","totalKudos":"Total Kudos"
-    }],
+      },
+      {
+        "employeeNumber":"Employee Number","surname":"Surname","firstName":"First Name","date":"Date","quality":"Quality","kudos":"Kudos","motivation":"Motivation"
+      }
+    ],
     "columnWidth":[{
       "employeeNumber":88,"surname":88,"firstName":88,"totalAchievements":88,"totalKudos":88
     }],
